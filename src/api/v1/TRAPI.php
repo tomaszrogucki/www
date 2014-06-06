@@ -9,7 +9,7 @@ class TRAPI extends API
 
             $db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, 'tomaszrogucki');
             
-            $query = 'SELECT name, description, date, country, place, aperture, shutter, zoom, iso, img FROM photos';
+            $query = 'SELECT name, description, date, country, place, aperture, shutter, zoom, iso, img, ratio FROM photos';
             $result = mysqli_query($db, $query);
             
             $rows = array();

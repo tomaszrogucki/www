@@ -1,3 +1,8 @@
 .idea
 sql_queries
-config.php
+src/config.php
+node_modules
+dist
+src/templates
+src/modules/photoGallery/photos
+tmp
