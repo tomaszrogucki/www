@@ -93,6 +93,25 @@ module.exports = function (grunt) {
             }
         },
 
+        hashres: {
+            options: {
+                encoding: 'utf8',
+                fileNameFormat: '${name}-${hash}.${ext}',
+                renameFiles: true
+            },
+            prod: {
+                src: [
+                    'dist/production/assets/css/*.css',
+                    'dist/production/assets/imgs/*.*',
+                    'dist/production/assets/js/*.js'
+                ],
+                dest: [
+                    'dist/production/index.html',
+                    'dist/production/assets/css/*.css'
+                ]
+            }
+        },
+
         watch: {
             files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.less'],
             tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less']
@@ -100,7 +119,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('build', ['newer:jade', 'browserify2', 'concat', 'less', 'newer:copy']);
+    grunt.registerTask('build', ['jade', 'browserify2', 'concat', 'less', 'newer:copy', 'hashres']);
     grunt.registerTask('staticAssets', ['newer:copy:api', 'newer:copy:html', 'newer:copy:img', 'newer:copy:assets']);
     grunt.registerTask('style', ['concat:less', 'less']);
 };

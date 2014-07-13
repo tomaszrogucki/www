@@ -4,12 +4,15 @@ require_once '../../config.php';
 
 class TRAPI extends API
 {
-    protected function photos() {
+    protected function photos($args) {
         if ($this->method == 'GET') {
+            $page = $args[0];
+            $perPage = 10;
+            $range = (string)((int)$page * $perPage) . ',' . (string)($perPage);
 
             $db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, 'tomaszrogucki');
             
-            $query = 'SELECT name, description, date, country, place, aperture, shutter, zoom, iso, img, ratio FROM photos';
+            $query = 'SELECT name, description, date, country, place, aperture, shutter, zoom, iso, img, ratio FROM photos LIMIT ' . $range;
             $result = mysqli_query($db, $query);
             
             $rows = array();
