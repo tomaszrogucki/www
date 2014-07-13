@@ -11,6 +11,7 @@ module.exports = function (grunt) {
         concat: {
             less: {
                 src: [
+                    './src/assets/css/normalize.less',
                     './src/modules/**/*.less',
                     './src/assets/**/*.less'
                 ],
