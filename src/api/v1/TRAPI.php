@@ -1,6 +1,6 @@
 <?php
 require_once 'API.php';
-require_once '../../config.php';
+require_once '../../../config.php';
 
 class TRAPI extends API
 {

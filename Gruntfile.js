@@ -8,30 +8,13 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
 
-        copy: {
-            html: {
-                expand: true,
-                cwd: './src/',
-                src: '*.html',
-                dest: './dist/production'
-            },
-            img: {
-                expand: true,
-                cwd: './src/modules/',
-                src: '**/*.jpg',
-                dest: './dist/production/assets'
-            },
-            api: {
-                expand: true,
-                cwd: './src/api',
-                src: ['**/*.*', '../../.htaccess', '../../config.php'],
-                dest: './dist/production/api'
-            },
-            assets: {
-                expand: true,
-                cwd: './src/assets',
-                src: ['**/*.jpg', '**/*.png'],
-                dest: './dist/production/assets'
+        concat: {
+            less: {
+                src: [
+                    './src/modules/**/*.less',
+                    './src/assets/**/*.less'
+                ],
+                dest: './src/tmp/style.less'
             }
         },
 
@@ -52,15 +35,53 @@ module.exports = function (grunt) {
                     runtime: false
                 },
                 files: {
-                    "./dist/production/": ["./src/index.jade"]
+                    "./dist/production/www": ["./src/index.jade"]
+                }
+            },
+            dev: {
+                options: {
+                    client: false,
+                    pretty: true,
+                    runtime: false
+                },
+                files: {
+                    "./dist/development/www/": ["./src/index.jade"]
+                }
+            }
+        },
+
+        less: {
+            prod: {
+                files: {
+                    './dist/production/www/assets/css/style.css': './src/tmp/style.less'
+                }
+            },
+            dev: {
+                files: {
+                    './dist/development/www/assets/css/style.css': './src/tmp/style.less'
                 }
             }
         },
 
         browserify2: {
+            prod: {
+                entry: ['./src/modules/photoGallery/photoGallery.js'],
+                compile: './dist/production/www/assets/js/application.js',
+                options: {
+                    expose: {
+                        files: [
+                            {
+                                cwd: './src/',
+                                src: ['**/*.js']
+                            }
+                        ]
+                    }
+
+                }
+            },
             dev: {
                 entry: ['./src/modules/photoGallery/photoGallery.js'],
-                compile: './dist/production/assets/js/application.js',
+                compile: './dist/development/www/assets/js/application.js',
                 options: {
                     expose: {
                         files: [
@@ -75,21 +96,70 @@ module.exports = function (grunt) {
             }
         },
 
-        concat: {
-            less: {
-                src: [
-                    './src/modules/**/*.less',
-                    './src/assets/**/*.less'
-                ],
-                dest: './src/tmp/style.less'
-            }
-        },
+        copy: {
+            prodHtml: {
+                expand: true,
+                cwd: './src/',
+                src: '*.html',
+                dest: './dist/production/www'
+            },
+            devHtml: {
+                expand: true,
+                cwd: './src/',
+                src: '*.html',
+                dest: './dist/development/www'
+            },
 
-        less: {
-            dev: {
-                files: {
-                    './dist/production/assets/css/style.css': './src/tmp/style.less'
-                }
+            prodImg: {
+                expand: true,
+                cwd: './src/modules/',
+                src: '**/*.jpg',
+                dest: './dist/production/www/assets'
+            },
+            devImg: {
+                expand: true,
+                cwd: './src/modules/',
+                src: '**/*.jpg',
+                dest: './dist/development/www/assets'
+            },
+
+            prodApi: {
+                expand: true,
+                cwd: './src/api',
+                src: ['**/*.*', '../../.htaccess'],
+                dest: './dist/production/www/api'
+            },
+            devApi: {
+                expand: true,
+                cwd: './src/api',
+                src: ['**/*.*', '../.htaccess'],
+                dest: './dist/development/www/api'
+            },
+
+            prodConfig: {
+                expand: true,
+                cwd: './src/config/production',
+                src: ['config.php'],
+                dest: './dist/production'
+            },
+            devConfig: {
+                expand: true,
+                cwd: './src/config/development',
+                src: ['config.php'],
+                dest: './dist/development'
+            },
+
+            prodAssets: {
+                expand: true,
+                cwd: './src/assets',
+                src: ['**/*.jpg', '**/*.png'],
+                dest: './dist/production/www/assets'
+            },
+            devAssets: {
+                expand: true,
+                cwd: './src/assets',
+                src: ['**/*.jpg', '**/*.png'],
+                dest: './dist/development/www/assets'
             }
         },
 
@@ -101,15 +171,31 @@ module.exports = function (grunt) {
             },
             prod: {
                 src: [
-                    'dist/production/assets/css/*.css',
-                    'dist/production/assets/imgs/*.*',
-                    'dist/production/assets/js/*.js'
+                    'dist/production/www/assets/css/*.css',
+                    'dist/production/www/assets/imgs/*.*',
+                    'dist/production/www/assets/js/*.js'
                 ],
                 dest: [
-                    'dist/production/index.html',
-                    'dist/production/assets/css/*.css'
+                    'dist/production/www/index.html',
+                    'dist/production/www/assets/css/*.css'
+                ]
+            },
+            dev: {
+                src: [
+                    'dist/development/www/assets/css/*.css',
+                    'dist/development/www/assets/imgs/*.*',
+                    'dist/development/www/assets/js/*.js'
+                ],
+                dest: [
+                    'dist/development/www/index.html',
+                    'dist/development/www/assets/css/*.css'
                 ]
             }
+        },
+
+        clean: {
+            prod: ['./dist/production'],
+            dev: ['./dist/development']
         },
 
         watch: {
@@ -118,6 +204,17 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.registerTask('copyProd', ['copy:prodHtml', 'copy:prodImg', 'copy:prodApi', 'copy:prodConfig', 'copy:prodAssets']);
+    grunt.registerTask('copyDev', ['newer:copy:devHtml', 'newer:copy:devImg', 'newer:copy:devApi', 'newer:copy:devConfig', 'newer:copy:devAssets']);
+
+    grunt.registerTask('prepare', ['concat:less', 'jade:templates']);
+    grunt.registerTask('devBuild', ['prepare', 'less:dev', 'jade:dev', 'browserify2:dev', 'copyDev']);
+    grunt.registerTask('prodBuild', ['clean:prod', 'prepare', 'less:prod', 'jade:prod', 'browserify2:prod', 'copyProd', 'hashres:prod']);
+
+
+
+    // older
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('build', ['jade', 'browserify2', 'concat', 'less', 'newer:copy', 'hashres']);
     grunt.registerTask('staticAssets', ['newer:copy:api', 'newer:copy:html', 'newer:copy:img', 'newer:copy:assets']);

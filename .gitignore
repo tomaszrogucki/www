@@ -6,3 +6,5 @@ dist
 src/templates
 src/modules/photoGallery/photos
 tmp
+.DS_Store
+src/config
