@@ -24,9 +24,37 @@ var PhotoCollection = Backbone.Collection.extend({
     }
 });
 
+var PhotoModalView = Base.View.extend({
+    template: 'photoModalTemplate',
+    className: 'photoModal',
+
+    events: {
+        'click': '_closeModal'
+    },
+
+    render: function() {
+        Base.View.prototype.render.apply(this, arguments);
+        $('body').prepend(this.$el);
+    },
+
+    _closeModal: function() {
+        this.remove();
+    }
+});
+
 var PhotoView = Base.View.extend({
     template: 'photoGalleryTemplate',
-    className: 'photoContainer'
+    className: 'photoContainer',
+
+    events: {
+        'click': '_photoClicked'
+    },
+
+    _photoClicked: function() {
+        var photoModalView = new PhotoModalView({model: this.model});
+        photoModalView.render();
+//{img: this.model.get('img')
+    }
 });
 
 var PhotoCollectionView = Base.CollectionView.extend({

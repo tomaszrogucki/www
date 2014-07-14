@@ -4,3 +4,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule api/v1/(.*)$ api/v1/TRAPI.php?request=$1 [QSA,NC,L]
 </IfModule>
+
+deny from 149.27.39.222
+deny from 94.159.36.158
+deny from 146.185.239.40
