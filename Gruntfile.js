@@ -127,7 +127,7 @@ module.exports = function (grunt) {
             prodApi: {
                 expand: true,
                 cwd: './src/api',
-                src: ['**/*.*', '../../.htaccess'],
+                src: ['**/*.*', '../.htaccess'],
                 dest: './dist/production/www/api'
             },
             devApi: {

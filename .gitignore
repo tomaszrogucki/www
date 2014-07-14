@@ -1,10 +1,8 @@
 .idea
-sql_queries
-src/config.php
 node_modules
 dist
 src/templates
 src/modules/photoGallery/photos
-tmp
+src/tmp
 .DS_Store
 src/config
