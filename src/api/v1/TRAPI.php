@@ -10,7 +10,7 @@ class TRAPI extends API
             $perPage = 10;
             $range = (string)((int)$page * $perPage) . ',' . (string)($perPage);
 
-            $db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, 'tomaszrogucki');
+            $db = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
             
             $query = 'SELECT name, description, date, country, place, aperture, shutter, zoom, iso, img, ratio FROM photos LIMIT ' . $range;
             $result = mysqli_query($db, $query);
