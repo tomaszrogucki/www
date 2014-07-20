@@ -112,21 +112,25 @@ var PhotoCollectionView = Base.CollectionView.extend({
     },
 
     calculateWidths: function () {
-        var photoWidth = 200;
+        var photoWidth = 300;
         var padding = 20;
         var combinedWidth = photoWidth + padding;
         var containerWidth = this.$el.width();
 
-        var numberOfColumns = Math.floor(containerWidth / combinedWidth);
-        var remainingWidth = containerWidth - numberOfColumns * combinedWidth;
+        var numberOfColumns = Math.floor((containerWidth - padding) / combinedWidth);
+        var remainingWidth = containerWidth - numberOfColumns * combinedWidth - padding;
 
         if (remainingWidth > combinedWidth / 2) {
             numberOfColumns += 1;
         }
 
-        var columnWidth = containerWidth / numberOfColumns;
-        if (columnWidth - 2 * padding < photoWidth) {
-            photoWidth = columnWidth - 2 * padding;
+        var columnWidth = (containerWidth - padding) / numberOfColumns;
+        if (columnWidth - padding < photoWidth) {
+            photoWidth = columnWidth - padding;
+        }
+        else if (photoWidth + padding < columnWidth) {
+            padding = Math.floor((containerWidth - (photoWidth * numberOfColumns)) / (numberOfColumns + 1));
+            columnWidth = Math.floor((containerWidth - padding) / numberOfColumns);
         }
 
         return {
@@ -152,13 +156,12 @@ var PhotoCollectionView = Base.CollectionView.extend({
         });
         this.$el.html(''); // empty the element
         this.$columns = [];
-        console.log('Columns removed');
     },
 
     resizeColumns: function () {
         var widths = this.calculateWidths();
 
-        if (this.photoWidth !== widths.photoWidth) {
+        if (this.photoWidth !== widths.photoWidth || this.padding !== widths.padding) {
             this.photoWidth = widths.photoWidth;
             this.padding = widths.padding;
             _.each(this.collection.models, function (model) {
@@ -176,7 +179,6 @@ var PhotoCollectionView = Base.CollectionView.extend({
             _.each(this.collection.models, function(model) {
                 this.collectionAdd(model);
             }, this);
-            console.log(widths.numberOfColumns);
         }
     },
 
