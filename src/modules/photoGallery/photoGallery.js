@@ -8,17 +8,17 @@ var PhotoModel = Backbone.Model.extend({
 });
 
 var PhotoCollection = Backbone.Collection.extend({
-    url: function() {
+    url: function () {
         return 'api/v1/photos/' + this.page;
     },
 
     model: PhotoModel,
 
-    initialize: function() {
+    initialize: function () {
         this.page = 0;
     },
 
-    fetch: function() {
+    fetch: function () {
         Backbone.Collection.prototype.fetch.apply(this, arguments);
         this.page += 1;
     }
@@ -32,12 +32,12 @@ var PhotoModalView = Base.View.extend({
         'click': '_closeModal'
     },
 
-    render: function() {
+    render: function () {
         Base.View.prototype.render.apply(this, arguments);
         $('body').prepend(this.$el);
     },
 
-    _closeModal: function() {
+    _closeModal: function () {
         this.remove();
     }
 });
@@ -50,7 +50,7 @@ var PhotoView = Base.View.extend({
         'click': '_photoClicked'
     },
 
-    _photoClicked: function() {
+    _photoClicked: function () {
         var photoModalView = new PhotoModalView({model: this.model});
         photoModalView.render();
 //{img: this.model.get('img')
@@ -66,30 +66,21 @@ var PhotoCollectionView = Base.CollectionView.extend({
     },
 
     initialize: function () {
-        this.photoWidth = 400;
-        this.padding = 20;
-        var combinedWidth = this.photoWidth + this.padding;
-        var containerWidth = this.$el.width();
-
         // TODO: remove this hack
         this.modelNumber = 0;
+        this.modelsLoaded = false;
+        this.perPage = 10;
 
-        var numberOfColumns = Math.floor(containerWidth / combinedWidth);
-        var remainingWidth = containerWidth - numberOfColumns * combinedWidth;
-
-        if(remainingWidth > combinedWidth / 2) {
-            numberOfColumns += 1;
-        }
-
-        var columnWidth = containerWidth / numberOfColumns;
-        if(columnWidth - 2 * this.padding < this.photoWidth) {
-            this.photoWidth = columnWidth - 2 * this.padding;
-        }
+        var widths = this.calculateWidths();
+        this.photoWidth = widths.photoWidth;
+        this.padding = widths.padding;
+        this.columnWidth = widths.columnWidth;
+        this.numberOfColumns = widths.numberOfColumns;
 
         this.$columns = [];
-        for(var i = 0; i < numberOfColumns; i++) {
+        for (var i = 0; i < widths.numberOfColumns; i++) {
             var $column = $('<div></div>');
-            $column.addClass('photoColumn').width(columnWidth);
+            $column.addClass('photoColumn').width(widths.columnWidth);
             this.$el.append($column);
             this.$columns[i] = $column;
         }
@@ -97,8 +88,34 @@ var PhotoCollectionView = Base.CollectionView.extend({
         this.listenTo(this.collection, 'add', this.collectionAdd.bind(this));
     },
 
+    calculateWidths: function () {
+        var photoWidth = 400;
+        var padding = 20;
+        var combinedWidth = photoWidth + padding;
+        var containerWidth = this.$el.width();
+
+        var numberOfColumns = Math.floor(containerWidth / combinedWidth);
+        var remainingWidth = containerWidth - numberOfColumns * combinedWidth;
+
+        if (remainingWidth > combinedWidth / 2) {
+            numberOfColumns += 1;
+        }
+
+        var columnWidth = containerWidth / numberOfColumns;
+        if (columnWidth - 2 * padding < photoWidth) {
+            photoWidth = columnWidth - 2 * padding;
+        }
+
+        return {
+            photoWidth: photoWidth,
+            padding: padding,
+            columnWidth: columnWidth,
+            numberOfColumns: numberOfColumns
+        };
+    },
+
     collectionAdd: function (model) {
-        var columnHeights = _.map(this.$columns, function($column) {
+        var columnHeights = _.map(this.$columns, function ($column) {
             return $column.height();
         });
 
@@ -113,22 +130,25 @@ var PhotoCollectionView = Base.CollectionView.extend({
 
         // TODO: remove this hack
         this.modelNumber += 1;
-        if(this.modelNumber === 10) {
+        this.modelsLoaded = (this.modelNumber % this.perPage === 0) ? true : false;
+        if (this.modelNumber === this.perPage) {
             this.infiniteScroll();
         }
     },
 
-    infiniteScroll: function() {
-        var scroll = this.$el.scrollTop();
-        var height = this.$el.height();
-        var columnHeight = _.max(_.map(this.$columns, function($column) {
-            return $column.height();
-        }));
+    infiniteScroll: function () {
+        if (this.modelsLoaded) {
+            var scroll = this.$el.scrollTop();
+            var height = this.$el.height();
+            var columnHeight = _.max(_.map(this.$columns, function ($column) {
+                return $column.height();
+            }));
 
-        if(columnHeight - height - scroll < 0.2 * height) {
-            this.collection.fetch();
+            if (columnHeight - height - scroll < 0.2 * height) {
+                this.modelsLoaded = false;
+                this.collection.fetch();
+            }
         }
-
     }
 });
 

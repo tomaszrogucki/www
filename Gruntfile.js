@@ -201,13 +201,14 @@ module.exports = function (grunt) {
 
         watch: {
             files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.less'],
-            tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less']
+            tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less'],
+            devBuild: ['devBuild']
         }
     });
 
 
-    grunt.registerTask('copyProd', ['copy:prodHtml', 'copy:prodImg', 'copy:prodApi', 'copy:prodConfig', 'copy:prodAssets']);
     grunt.registerTask('copyDev', ['newer:copy:devHtml', 'newer:copy:devImg', 'newer:copy:devApi', 'newer:copy:devConfig', 'newer:copy:devAssets']);
+    grunt.registerTask('copyProd', ['copy:prodHtml', 'copy:prodImg', 'copy:prodApi', 'copy:prodConfig', 'copy:prodAssets']);
 
     grunt.registerTask('prepare', ['concat:less', 'jade:templates']);
     grunt.registerTask('devBuild', ['prepare', 'less:dev', 'jade:dev', 'browserify2:dev', 'copyDev']);
