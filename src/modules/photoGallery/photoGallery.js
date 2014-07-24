@@ -5,6 +5,12 @@ Backbone.$ = $;
 var Base = require('base');
 
 var PhotoModel = Backbone.Model.extend({
+    parse: function(response, options) {
+        var date = response.date;
+        var months = ['January', 'February', 'March', "April", 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        response.date = parseInt(date.substring(8,10), 10) + ' ' +  months[parseInt(date.substring(5,7), 10)] + ' ' +  date.substring(0,4);
+        return Backbone.Model.prototype.parse.call(this, response, options);
+    }
 });
 
 var PhotoCollection = Backbone.Collection.extend({
