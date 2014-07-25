@@ -1,0 +1,84 @@
+html
+  height 100%
+
+body
+  height 100%
+
+#mainContainer
+  height 100%
+  overflow-y auto
+
+.photoContainer
+  display inline-block
+  font-family 'Raleway', sans-serif
+
+.photo
+  background-color $black30
+  text-align left
+
+.photo > img
+  box-shadow 0 0 10px 0 $black
+  cursor pointer
+
+.photoFooter
+  padding 20px
+
+.photoFooter > div
+  padding-left 10px
+
+.photoColumn
+  display inline-block
+  vertical-align top
+  text-align right
+
+.name
+  border-left 20px solid $faintRed
+
+.description
+  border-left 20px solid $gray
+  color $gray
+  font-size 14px
+  margin-bottom 20px
+  margin-top 10px
+
+.place
+  border-left 20px solid $gray1
+  color $gray1
+  display inline-block
+  margin-right 20px
+
+.country
+  border-left 20px solid $gray1
+  color $gray1
+  display inline-block
+
+.date
+  border-left 20px solid $gray
+  color $gray
+  display inline-block
+  margin-top 10px
+
+
+.photoModal
+  background-color $black80
+  display table
+  height 100%
+  left 0
+  position absolute
+  top 0
+  text-align center
+  width 100%
+
+.photoModalContainer
+  display table-cell
+  cursor pointer
+  height 100%
+  vertical-align middle
+  width 100%
+
+.photoModalContainer > img
+  box-shadow 0 0 10px 0 $black
+  max-height 90%
+  max-width 90%
+  margin-left auto
+  margin-right auto

@@ -9,14 +9,17 @@ module.exports = function (grunt) {
 
 
         concat: {
-            less: {
+            styl: {
                 src: [
-                    './src/assets/css/normalize.less',
-                    './src/assets/css/icons.less',
-                    './src/modules/**/*.less',
-                    './src/assets/**/*.less'
+                    './src/assets/css/normalize.styl',
+                    './src/assets/css/icons.styl',
+                    './src/assets/css/colors.styl',
+                    './src/assets/css/fonts.styl',
+                    './src/assets/css/general.styl',
+                    './src/modules/**/*.styl',
+                    './src/assets/**/*.styl'
                 ],
-                dest: './src/tmp/style.less'
+                dest: './src/tmp/style.styl'
             }
         },
 
@@ -52,15 +55,18 @@ module.exports = function (grunt) {
             }
         },
 
-        less: {
+        stylus: {
             prod: {
                 files: {
-                    './dist/production/www/assets/css/style.css': './src/tmp/style.less'
+                    './dist/production/www/assets/css/style.css': './src/tmp/style.styl'
                 }
             },
             dev: {
+                options: {
+                    compress: false
+                },
                 files: {
-                    './dist/development/www/assets/css/style.css': './src/tmp/style.less'
+                    './dist/development/www/assets/css/style.css': './src/tmp/style.styl'
                 }
             }
         },
@@ -154,13 +160,13 @@ module.exports = function (grunt) {
             prodAssets: {
                 expand: true,
                 cwd: './src/assets',
-                src: ['**/*.jpg', '**/*.png', '**/*.ttf'],
+                src: ['**/*.jpg', '**/*.png', '**/*.ttf', '**/*.woff'],
                 dest: './dist/production/www/assets'
             },
             devAssets: {
                 expand: true,
                 cwd: './src/assets',
-                src: ['**/*.jpg', '**/*.png', '**/*.ttf'],
+                src: ['**/*.jpg', '**/*.png', '**/*.ttf', '**/*.woff'],
                 dest: './dist/development/www/assets'
             }
         },
@@ -204,8 +210,8 @@ module.exports = function (grunt) {
 
         watch: {
             custom: {
-                files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.less'],
-                tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less'],
+                files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.styl'],
+                tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:styl'],
             },
             devBuild: {
                 files: ['./src/**/*.*'],
@@ -218,15 +224,15 @@ module.exports = function (grunt) {
     grunt.registerTask('copyDev', ['newer:copy:devHtml', 'newer:copy:devImg', 'newer:copy:devApi', 'newer:copy:devConfig', 'newer:copy:devAssets']);
     grunt.registerTask('copyProd', ['copy:prodHtml', 'copy:prodImg', 'copy:prodApi', 'copy:prodConfig', 'copy:prodAssets']);
 
-    grunt.registerTask('prepare', ['concat:less', 'jade:templates']);
-    grunt.registerTask('devBuild', ['prepare', 'less:dev', 'jade:dev', 'browserify2:dev', 'copyDev']);
-    grunt.registerTask('prodBuild', ['clean:prod', 'prepare', 'less:prod', 'jade:prod', 'browserify2:prod', 'copyProd', 'hashres:prod']);
+    grunt.registerTask('prepare', ['concat:styl', 'jade:templates']);
+    grunt.registerTask('devBuild', ['prepare', 'stylus:dev', 'jade:dev', 'browserify2:dev', 'copyDev']);
+    grunt.registerTask('prodBuild', ['clean:prod', 'prepare', 'stylus:prod', 'jade:prod', 'browserify2:prod', 'copyProd', 'hashres:prod']);
 
 
 
     // older
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('build', ['jade', 'browserify2', 'concat', 'less', 'newer:copy', 'hashres']);
+    grunt.registerTask('build', ['jade', 'browserify2', 'concat', 'stylus', 'newer:copy', 'hashres']);
     grunt.registerTask('staticAssets', ['newer:copy:api', 'newer:copy:html', 'newer:copy:img', 'newer:copy:assets']);
-    grunt.registerTask('style', ['concat:less', 'less']);
+    grunt.registerTask('style', ['concat:styl', 'stylus']);
 };
