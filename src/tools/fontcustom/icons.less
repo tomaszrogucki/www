@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "<%= font_name %>";
+  src: url("../icons/<%= font_name %>.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before { content: attr(data-icon); }
+
+[data-icon]:before,
+<%= glyph_selectors %> {
+<%= glyph_properties %>
+}
+
+<%= glyphs %>

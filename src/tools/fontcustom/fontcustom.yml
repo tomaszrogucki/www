@@ -1,0 +1,20 @@
+font_name: icons
+css_selector: .icon-{{glyph}}
+preprocessor_path: ""
+autowidth: false
+no_hash: true
+force: false
+debug: false
+quiet: false
+
+input:
+  vectors: ../../assets/svg
+  templates: .
+
+output:
+  fonts: ../../assets/icons
+  icons.less: ../../assets/css
+
+
+templates:
+ - icons.less

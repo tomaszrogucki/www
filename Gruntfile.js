@@ -12,6 +12,7 @@ module.exports = function (grunt) {
             less: {
                 src: [
                     './src/assets/css/normalize.less',
+                    './src/assets/css/icons.less',
                     './src/modules/**/*.less',
                     './src/assets/**/*.less'
                 ],
@@ -153,13 +154,13 @@ module.exports = function (grunt) {
             prodAssets: {
                 expand: true,
                 cwd: './src/assets',
-                src: ['**/*.jpg', '**/*.png'],
+                src: ['**/*.jpg', '**/*.png', '**/*.ttf'],
                 dest: './dist/production/www/assets'
             },
             devAssets: {
                 expand: true,
                 cwd: './src/assets',
-                src: ['**/*.jpg', '**/*.png'],
+                src: ['**/*.jpg', '**/*.png', '**/*.ttf'],
                 dest: './dist/development/www/assets'
             }
         },
@@ -174,6 +175,7 @@ module.exports = function (grunt) {
                 src: [
                     'dist/production/www/assets/css/*.css',
                     'dist/production/www/assets/imgs/*.*',
+                    'dist/production/www/assets/icons/*.*',
                     'dist/production/www/assets/js/*.js'
                 ],
                 dest: [
@@ -185,6 +187,7 @@ module.exports = function (grunt) {
                 src: [
                     'dist/development/www/assets/css/*.css',
                     'dist/development/www/assets/imgs/*.*',
+                    'dist/development/www/assets/icons/*.*',
                     'dist/development/www/assets/js/*.js'
                 ],
                 dest: [
@@ -200,9 +203,14 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.less'],
-            tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less'],
-            devBuild: ['devBuild']
+            custom: {
+                files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.less'],
+                tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:less'],
+            },
+            devBuild: {
+                files: ['./src/**/*.*'],
+                tasks: ['devBuild']
+            }
         }
     });
 

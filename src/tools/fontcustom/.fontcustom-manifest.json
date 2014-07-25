@@ -1,0 +1,101 @@
+{
+  "checksum": {
+    "previous": "6c3767873e0451ef55e9d7e74e79a9a8623754982148f41f38f07f543f3e2f34",
+    "current": "6c3767873e0451ef55e9d7e74e79a9a8623754982148f41f38f07f543f3e2f34"
+  },
+  "fonts": [
+    "../../assets/icons/icons.ttf",
+    "../../assets/icons/icons.svg",
+    "../../assets/icons/icons.woff",
+    "../../assets/icons/icons.eot"
+  ],
+  "glyphs": {
+    "calendar": {
+      "codepoint": 61696,
+      "source": "../../assets/svg/calendar.svg"
+    },
+    "calendar-date": {
+      "codepoint": 61697,
+      "source": "../../assets/svg/calendar-date.svg"
+    },
+    "globe": {
+      "codepoint": 61698,
+      "source": "../../assets/svg/globe.svg"
+    },
+    "globe-black": {
+      "codepoint": 61699,
+      "source": "../../assets/svg/globe-black.svg"
+    },
+    "location": {
+      "codepoint": 61700,
+      "source": "../../assets/svg/location.svg"
+    },
+    "location-big-black": {
+      "codepoint": 61701,
+      "source": "../../assets/svg/location-big-black.svg"
+    },
+    "location-black": {
+      "codepoint": 61702,
+      "source": "../../assets/svg/location-black.svg"
+    },
+    "note": {
+      "codepoint": 61703,
+      "source": "../../assets/svg/note.svg"
+    },
+    "note-bar": {
+      "codepoint": 61704,
+      "source": "../../assets/svg/note-bar.svg"
+    },
+    "note-bar-black": {
+      "codepoint": 61705,
+      "source": "../../assets/svg/note-bar-black.svg"
+    },
+    "note-black": {
+      "codepoint": 61706,
+      "source": "../../assets/svg/note-black.svg"
+    },
+    "note-punch": {
+      "codepoint": 61707,
+      "source": "../../assets/svg/note-punch.svg"
+    },
+    "note-punch-empty": {
+      "codepoint": 61708,
+      "source": "../../assets/svg/note-punch-empty.svg"
+    },
+    "paper-plane": {
+      "codepoint": 61709,
+      "source": "../../assets/svg/paper-plane.svg"
+    },
+    "paper-plane-black": {
+      "codepoint": 61710,
+      "source": "../../assets/svg/paper-plane-black.svg"
+    }
+  },
+  "options": {
+    "autowidth": false,
+    "config": "fontcustom.yml",
+    "css_selector": ".icon-{{glyph}}",
+    "debug": false,
+    "font_name": "icons",
+    "force": false,
+    "input": {
+      "templates": ".",
+      "vectors": "../../assets/svg"
+    },
+    "no_hash": true,
+    "output": {
+      "css": "../../assets/icons",
+      "fonts": "../../assets/icons",
+      "icons.less": "../../assets/css",
+      "preview": "../../assets/icons"
+    },
+    "preprocessor_path": "",
+    "quiet": false,
+    "templates": [
+      "icons.less"
+    ]
+  },
+  "templates": [
+    "../../assets/css/./icons.less"
+  ]
+}
