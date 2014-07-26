@@ -1,8 +1,17 @@
 .photo
     img(src="assets/photoGallery/photos/mini/#{img}")
     .photoFooter
-        .name= name
-        .description= description
-        .place.
-            #{place}, #{country}
-        .date= date
+        .name
+            .icon-globe-black
+            div= name
+        if description
+            .description
+                .icon-note-black
+                div= description
+        .place
+            .icon-location-big-black
+            div.
+                #{place}, #{country}
+        .date
+            .icon-calendar
+            div= date

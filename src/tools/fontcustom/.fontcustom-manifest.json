@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "6c3767873e0451ef55e9d7e74e79a9a8623754982148f41f38f07f543f3e2f34",
-    "current": "6c3767873e0451ef55e9d7e74e79a9a8623754982148f41f38f07f543f3e2f34"
+    "previous": "5505b05e0862d97787cfddbac95d42f12c4ac63d5bfdf2fdbc3efa99ea77fe98",
+    "current": "5505b05e0862d97787cfddbac95d42f12c4ac63d5bfdf2fdbc3efa99ea77fe98"
   },
   "fonts": [
     "../../assets/icons/icons.ttf",
@@ -92,10 +92,10 @@
     "preprocessor_path": "",
     "quiet": false,
     "templates": [
-      "icons.less"
+      "icons.styl"
     ]
   },
   "templates": [
-    "../../assets/css/./icons.less"
+    "../../assets/icons/icons.styl"
   ]
 }

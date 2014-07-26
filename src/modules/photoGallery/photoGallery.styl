@@ -22,9 +22,16 @@ body
 
 .photoFooter
   padding 20px
-
-.photoFooter > div
-  padding-left 10px
+  > div
+    display table
+    > div
+      &:first-child
+        display table-cell
+        min-width 16px
+      &:nth-child(2)
+        display table-cell
+        padding-left 1em
+        vertical-align top
 
 .photoColumn
   display inline-block
@@ -32,31 +39,29 @@ body
   text-align right
 
 .name
-  border-left 20px solid $faintRed
+  margin-bottom 10px
+  > div
+    &:first-child
+      color $faintRed
 
 .description
-  border-left 20px solid $gray
   color $gray
   font-size 14px
-  margin-bottom 20px
-  margin-top 10px
 
 .place
-  border-left 20px solid $gray1
-  color $gray1
+  color $gray
   display inline-block
   margin-right 20px
+  margin-top 20px
 
 .country
-  border-left 20px solid $gray1
   color $gray1
   display inline-block
 
 .date
-  border-left 20px solid $gray
   color $gray
   display inline-block
-  margin-top 10px
+  margin-top 5px
 
 
 .photoModal

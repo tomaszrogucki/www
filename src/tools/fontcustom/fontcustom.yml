@@ -17,4 +17,4 @@ output:
 
 
 templates:
- - icons.less
+ - icons.styl
