@@ -3,6 +3,7 @@
 module.exports = function (grunt) {
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
     require('time-grunt')(grunt);
+    var config = grunt.file.readJSON('config.json');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -180,8 +181,9 @@ module.exports = function (grunt) {
             prod: {
                 src: [
                     'dist/production/www/assets/css/*.css',
-                    'dist/production/www/assets/imgs/*.*',
+                    'dist/production/www/assets/fonts/*.*',
                     'dist/production/www/assets/icons/*.*',
+                    'dist/production/www/assets/imgs/*.*',
                     'dist/production/www/assets/js/*.js'
                 ],
                 dest: [
@@ -192,8 +194,9 @@ module.exports = function (grunt) {
             dev: {
                 src: [
                     'dist/development/www/assets/css/*.css',
-                    'dist/development/www/assets/imgs/*.*',
+                    'dist/development/www/assets/fonts/*.*',
                     'dist/development/www/assets/icons/*.*',
+                    'dist/development/www/assets/imgs/*.*',
                     'dist/development/www/assets/js/*.js'
                 ],
                 dest: [
@@ -208,10 +211,23 @@ module.exports = function (grunt) {
             dev: ['./dist/development']
         },
 
+        'ftp-deploy': {
+            prod: {
+                auth: {
+                    host: config.hostname,
+                    port: 21,
+                    authKey: 'key'
+                },
+                src: 'dist/production/www',
+                dest: '/public_html',
+                exclusions: ['dist/production/www/.htaccess']
+            }
+        },
+
         watch: {
             custom: {
                 files: ['./**/*.js', './**/*.jade', './**/*.jpg', './**/*.styl'],
-                tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:styl'],
+                tasks: ['newer:copy', 'newer:jade', 'newer:browserify2', 'newer:concat', 'newer:styl']
             },
             devBuild: {
                 files: ['./src/**/*.*'],

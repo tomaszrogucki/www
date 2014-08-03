@@ -6,3 +6,5 @@ src/modules/photoGallery/photos
 src/tmp
 .DS_Store
 src/config
+.ftppass
+config.json
