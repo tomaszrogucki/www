@@ -4,6 +4,8 @@ var Backbone = require('backbone');
 Backbone.$ = $;
 var Base = require('base');
 
+var analytics = require('analytics');
+
 var PhotoModel = Backbone.Model.extend({
     parse: function(response, options) {
         var date = response.date;
@@ -230,4 +232,7 @@ $(document).ready(function () {
     var photoCollectionView = new PhotoCollectionView({collection: photoCollection});
 
     photoCollection.fetch();
+
+    analytics.init();
+    analytics.pageView('/');
 });
